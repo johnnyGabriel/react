@@ -1,0 +1,20 @@
+{
+  "name": "react",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "johnnypestana <johnny_gabriel@outlook.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "^15.3.1"
+  }
+}
