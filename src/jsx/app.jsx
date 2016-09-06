@@ -1,23 +1,46 @@
-var Ola = React.createClass({
-	getInitialState: function() {
-		return { time: '00/00/0000 00:00:00' };
-	},
-	componentDidMount: function() {
-		this.interval = setInterval(this.updateTime, 1000);
-	},
-	updateTime: function() {
-		this.setState({
-			time: new Date().toLocaleString()
-		});
-	},
-	render: function() {
-		return (
-			<h1> {this.state.time} </h1>
-		);
-	}
+var PostList = React.createClass({
+    render: function() {
+        var post = function(val) {
+            return (
+                <div className="col-md-12" key={val.id}>
+                    <h3>{val.title}</h3>
+                    <p>{val.body}</p>
+                </div>
+            );
+        };
+        return <div>{this.props.posts.map(post)}</div>;
+    }
+});
+
+var PostApp = React.createClass({
+    getInitialState: function() {
+        return {
+            posts: [],
+            isLoading: true
+        };
+    },
+    componentDidMount: function() {
+        this.request = $.get(this.props.endpoint, function(posts) {
+            this.setState({
+                posts: posts,
+                isLoading: false
+            });
+        }.bind(this));
+    },
+    componentDidUnmount: function() {
+        this.request.abort();
+    },
+    render: function() {
+        return (
+            <div>
+                { this.state.isLoading ? <h4>Carregando...</h4> : null }
+                <PostList posts={this.state.posts} />
+            </div>
+        );
+    }
 });
 
 ReactDOM.render(
-	<Ola />,
-	document.getElementById('container')
+    <PostApp endpoint="http://jsonplaceholder.typicode.com/posts" />,
+    document.getElementById('content')
 );
