@@ -27,7 +27,7 @@ var PostApp = React.createClass({
             });
         }.bind(this));
     },
-    componentDidUnmount: function() {
+    componentWillUnmount: function() {
         this.request.abort();
     },
     render: function() {
