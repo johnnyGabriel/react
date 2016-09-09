@@ -11,24 +11,32 @@ gulp
             }))
             .pipe(gulp.dest('dist/js'))
     )
-    .task('move', () =>
-        gulp.src(['src/index.html', 'src/libs/**/*'], { base: 'src'})
+    .task('moveSrc', () =>
+        gulp.src(['src/index.html'], { base: 'src' })
+            .pipe(gulp.dest('dist'))
+    )
+    .task('moveBower', () =>
+        gulp.src('src/libs/**/*', { base: 'src' })
             .pipe(gulp.dest('dist'))
     )
     .task('clean', () => 
         gulp.src('dist', { read: false})
             .pipe(clean())
     )
-    .task('watch', () => 
-        gulp.watch('src/**/*', ['build'])
+    .task('watchSrc', () => 
+        gulp.watch(['src/**/*', '!src/libs/**/*'], ['build'])
     )
+    .task('watchBower', () => 
+        gulp.watch('src/libs/**/*', ['moveBower'])
+    )
+    .task('watch', ['watchSrc', 'watchBower'])
     .task('server', () =>
-        gulp.src('dist')
+        gulp.src(['dist'])
             .pipe(livereload({
                 livereload: true,
                 defaultFile: 'index.html',
                 log: 'debug'
             }))
     )
-    .task('build', ['jsx', 'move'])
+    .task('build', ['jsx', 'moveSrc', 'moveBower'])
     .task('default', ['watch', 'server']);
