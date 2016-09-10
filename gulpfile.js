@@ -5,7 +5,7 @@ const livereload = require('gulp-server-livereload');
 
 gulp
     .task('jsx', () =>
-        gulp.src('src/jsx/app.jsx')
+        gulp.src('src/jsx/**/*')
             .pipe(babel({
                 presets: ['react']
             }))
@@ -39,4 +39,4 @@ gulp
             }))
     )
     .task('build', ['jsx', 'moveSrc', 'moveBower'])
-    .task('default', ['watch', 'server']);
+    .task('default', ['build', 'watch', 'server']);
