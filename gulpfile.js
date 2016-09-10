@@ -24,7 +24,7 @@ gulp
             .pipe(clean())
     )
     .task('watchSrc', () => 
-        gulp.watch(['src/**/*', '!src/libs/**/*'], ['build'])
+        gulp.watch(['src/**/*', '!src/libs/**/*'], ['jsx', 'moveSrc'])
     )
     .task('watchBower', () => 
         gulp.watch('src/libs/**/*', ['moveBower'])
