@@ -12,7 +12,7 @@ gulp
             .pipe(gulp.dest('dist/js'))
     )
     .task('moveSrc', () =>
-        gulp.src(['src/index.html'], { base: 'src' })
+        gulp.src(['src/*.*'], { base: 'src' })
             .pipe(gulp.dest('dist'))
     )
     .task('moveBower', () =>
