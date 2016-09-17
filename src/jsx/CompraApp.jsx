@@ -1,3 +1,13 @@
+var ProdutoListItem = React.createClass({
+    render: function() {
+        return (
+            <option value={ this.props.id }>
+                { this.props.nome }
+            </option>
+        );
+    }
+});
+
 var FormProdutos = React.createClass({
     getInitialState: function() {
         return {
@@ -9,28 +19,27 @@ var FormProdutos = React.createClass({
     componentDidMount: function() {
         this.carrinho = [];
     },
-    renderOptions: function(produto) {
-        return (
-            <option value={ produto.id }>
-                { produto.nome }
-            </option>
-        );
-    },
     render: function() {
         return (
-            <form className="form-inline"
-                onSubmit={ this.handleSubmit }>
+            <form className="form-inline" onSubmit={ this.handleSubmit }>
                 <div className="form-group">
-                    <select className="form-control"
+                    <select
+                        className="form-control"
                         placeholder="Selecione o produto"
                         value={ this.state.produto }
                         onChange={ this.handleProdChange }>
-                        <option value="0" disabled>Selecione o produto</option>
-                        { this.props.produtos.map(this.renderOptions) }        
+                        <option value="0" disabled> Selecione o produto </option>
+                        { this.props.produtos.map(function(produto) {
+                            return <ProdutoListItem
+                                key={ produto.id }
+                                id={ produto.id }
+                                nome={ produto.nome } />;
+                        }) }        
                     </select>
                 </div>
                 <div className="form-group">
-                    <input type="number"
+                    <input
+                        type="number"
                         className="form-control"
                         min="1"
                         max={ this.state.selected.qEstoque }
@@ -39,7 +48,8 @@ var FormProdutos = React.createClass({
                         onChange={ this.handleQttChange } />
                 </div>
                 <div className="form-group">
-                    <input type="submit"
+                    <input
+                        type="submit"
                         className="btn btn-default"
                         value="Adicionar ao carrinho" />
                 </div>
@@ -91,18 +101,21 @@ var FormProdutos = React.createClass({
     }
 });
 
-var ListaCompras = React.createClass({
-    renderItemList: function(produto) {
+var ListaComprasListItem = React.createClass({
+    render: function() {
         return (
             <tr>
-                <td> { produto.id } </td>
-                <td> { produto.nome } </td>
-                <td> R$ { produto.valor.toFixed(2) } </td>
-                <td> { produto.qtt } </td>
-                <td> R$ { (produto.valor * produto.qtt).toFixed(2) } </td>
+                <td> { this.props.produto.id } </td>
+                <td> { this.props.produto.nome } </td>
+                <td> R$ { this.props.produto.valor.toFixed(2) } </td>
+                <td> { this.props.produto.qtt } </td>
+                <td> R$ { (this.props.produto.valor * this.props.produto.qtt).toFixed(2) } </td>
             </tr>
         );
-    },
+    }
+});
+
+var ListaCompras = React.createClass({
     render: function() {
         return (
             <table className="table table-hover">
@@ -122,7 +135,9 @@ var ListaCompras = React.createClass({
                                 Carrinho vazio   
                             </td>
                         </tr>) : null }
-                    { this.props.carrinho.map(this.renderItemList) }
+                    { this.props.carrinho.map(function(produto, index) {
+                        return <ListaComprasListItem key={ index } produto={ produto } />;
+                    }) }
                     <tr>
                         <td colSpan="4" className="text-right">Total</td>
                         <td> R$ { this.calcTotal().toFixed(2) } </td>
