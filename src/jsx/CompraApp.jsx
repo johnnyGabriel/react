@@ -21,37 +21,46 @@ var FormProdutos = React.createClass({
     },
     render: function() {
         return (
-            <form className="form-inline" onSubmit={ this.handleSubmit }>
-                <div className="form-group">
-                    <select
-                        className="form-control"
-                        placeholder="Selecione o produto"
-                        value={ this.state.produto }
-                        onChange={ this.handleProdChange }>
-                        <option value="0" disabled> Selecione o produto </option>
-                        { this.props.produtos.map(function(produto) {
-                            return <ProdutoListItem
-                                key={ produto.id }
-                                id={ produto.id }
-                                nome={ produto.nome } />;
-                        }) }        
-                    </select>
-                </div>
-                <div className="form-group">
-                    <input
-                        type="number"
-                        className="form-control"
-                        min="1"
-                        max={ this.state.selected.qEstoque }
-                        placeholder="quantidade"
-                        value={ this.state.qtt }
-                        onChange={ this.handleQttChange } />
-                </div>
-                <div className="form-group">
-                    <input
-                        type="submit"
-                        className="btn btn-default"
-                        value="Adicionar ao carrinho" />
+            <form onSubmit={ this.handleSubmit }>
+                <div className="row">
+                    <div className="col-md-6">
+                        <div className="form-group">
+                            <select
+                                className="form-control"
+                                placeholder="Selecione o produto"
+                                value={ this.state.produto }
+                                onChange={ this.handleProdChange }>
+                                <option value="0" disabled> Selecione o produto </option>
+                                { this.props.produtos.map(function(produto) {
+                                    return <ProdutoListItem
+                                        key={ produto.id }
+                                        id={ produto.id }
+                                        nome={ produto.nome } />;
+                                }) }        
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-md-2">
+                        <div className="form-group">
+                            <input
+                                type="number"
+                                className="form-control"
+                                min={1}
+                                max={ this.state.selected.qEstoque || 1 }
+                                placeholder="quantidade"
+                                value={ this.state.qtt }
+                                onChange={ this.handleQttChange } />
+                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <div className="form-group">
+                            <button
+                                type="submit"
+                                className="btn btn-block btn-primary"
+                                disabled={ !this.state.produto }>
+                                Adicionar ao carrinho</button>
+                        </div>
+                    </div>
                 </div>
             </form>
         );
@@ -118,7 +127,8 @@ var ListaComprasListItem = React.createClass({
 var ListaCompras = React.createClass({
     render: function() {
         return (
-            <table className="table table-hover">
+            <div className="table-responsive">
+                <table className="table table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -143,7 +153,8 @@ var ListaCompras = React.createClass({
                         <td> R$ { this.calcTotal().toFixed(2) } </td>
                     </tr>
                 </tbody>
-            </table>
+                </table>
+            </div>
         );
     },
     calcTotal: function() {
@@ -156,21 +167,18 @@ var ListaCompras = React.createClass({
 var CompraApp = React.createClass({
     getInitialState: function() {
         return {
-            produtos: [
-                { id: 1, nome: "Refrigerante", qEstoque: 5 , valor: 5.50 },
-                { id: 2, nome: "Arroz", qEstoque: 3 , valor: 10 },
-                { id: 3, nome: "Feijão", qEstoque: 1, valor: 25.90 },
-                { id: 4, nome: "Açucar", qEstoque: 5, valor:  9.90 },
-                { id: 5, nome: "Sal", qEstoque: 9 , valor: 8.70 },
-            ],
             carrinho: []
         }
     },
     render: function() {
         return (
             <div>
-                <FormProdutos produtos={ this.state.produtos } onChange={ this.handleFormChange } />
-                <ListaCompras carrinho={ this.state.carrinho } />
+                <h1>{ this.props.titulo }</h1>
+                <p>{ this.props.subtitulo }</p>
+                <div>
+                    <FormProdutos produtos={ this.props.produtos } onChange={ this.handleFormChange } />
+                    <ListaCompras carrinho={ this.state.carrinho } />
+                </div>
             </div>
         );
     },
