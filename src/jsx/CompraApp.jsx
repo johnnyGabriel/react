@@ -67,12 +67,14 @@ var FormProdutos = React.createClass({
     },
     handleProdChange: function(ev) {
 
-        var selectedVal = ev.target.options[ ev.target.selectedIndex ].value
+        var selectedVal = ev.target.options[ ev.target.selectedIndex ].value;
 
-        this.setState({
-            selected: this.getProdutoById( selectedVal ),
-            produto: selectedVal
-        });
+        this.setState(
+            Object.assign( this.getInitialState(), {
+                selected: this.getProdutoById( selectedVal ),
+                produto: selectedVal
+            })
+        );
     },
     handleQttChange: function(ev) {
 
@@ -88,25 +90,22 @@ var FormProdutos = React.createClass({
         ev.preventDefault();
 
         this.carrinho.push(
-            Object.assign({ qtt: this.state.qtt }, this.state.selected)
+            Object.assign( this.state.selected, { qtt: this.state.qtt } )
         );
 
         this.props.onChange(this.carrinho);
 
-        this.clearForm();
+        this.setState(
+            this.getInitialState()
+        );
 
     },
     getProdutoById: function(id) {
+
         return this.props.produtos.find(function(produto) {
             return produto.id == id;
         });
-    },
-    clearForm: function() {
-        this.setState({
-            selected: {},
-            produto: 0,
-            qtt: 1
-        });
+
     }
 });
 
