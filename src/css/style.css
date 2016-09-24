@@ -1,0 +1,11 @@
+.borderless {
+    border-radius: 0 !important;
+}
+.search-results-container {
+    z-index: 99999;
+    position: relative;
+}
+.search-results {
+    position: absolute;
+    width: 100%;
+}
