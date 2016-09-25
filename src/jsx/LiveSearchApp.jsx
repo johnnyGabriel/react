@@ -1,4 +1,4 @@
-var LiveSearchResultsItem = React.createClass({
+var LiveSearchResult = React.createClass({
     render: function() {
         return (
             <a href="#" className="list-group-item borderless"> { this.props.title } </a>
@@ -9,7 +9,7 @@ var LiveSearchResultsItem = React.createClass({
 var LiveSearchResults = React.createClass({
     mapResults: function() {
         return this.props.results.map(function(result) {
-            return <LiveSearchResultsItem key={ result.id } title={ result[this.props.showKey] } />;
+            return <LiveSearchResult key={ result.id } title={ result[this.props.showKey] } />;
         }.bind(this));
     },
     render: function() {
