@@ -14,10 +14,11 @@
     "babelify": "^7.3.0",
     "browserify": "^13.1.0",
     "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
     "gulp-clean": "^0.3.2",
     "gulp-server-livereload": "^1.8.4",
     "gulp-util": "^3.0.7",
+    "jquery": "^3.1.1",
+    "react-dom": "^15.3.2",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0"
   }

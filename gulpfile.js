@@ -1,5 +1,4 @@
 const gulp = require('gulp');
-const babel = require('gulp-babel');
 const clean = require('gulp-clean');
 const livereload = require('gulp-server-livereload');
 const watchify = require('watchify');
