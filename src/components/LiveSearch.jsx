@@ -3,6 +3,11 @@ import LiveSearchForm from './LiveSearchForm'
 import LiveSearchResults from './LiveSearchResults'
 
 export default React.createClass({
+    propTypes: {
+        searchKey: React.PropTypes.string.isRequired,
+        viewKey: React.PropTypes.string.isRequired,
+        data: React.PropTypes.array.isRequired
+    },
     getInitialState: function() {
         return {
             searchResults: []

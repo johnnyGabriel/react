@@ -2,6 +2,9 @@ import React from 'react'
 import CompraListaItem from './CompraListaItem'
 
 export default React.createClass({
+    propTypes: {
+        carrinho: React.PropTypes.array.isRequired
+    },
     render: function() {
         return (
             <div className="table-responsive">

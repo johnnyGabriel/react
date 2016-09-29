@@ -1,6 +1,9 @@
 import React from 'react'
 
 export default React.createClass({
+    propTypes: {
+        post: React.PropTypes.object.isRequired
+    },
     render: function() {
         return (
             <a href="#" className="list-group-item">

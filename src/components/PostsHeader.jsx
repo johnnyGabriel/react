@@ -1,6 +1,10 @@
 import React from 'react'
 
 export default React.createClass({
+    propTypes: {
+        title: React.PropTypes.string,
+        subtitle: React.PropTypes.string
+    },
     render: function() {
         return (
             <div className="page-header">

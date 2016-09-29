@@ -2,6 +2,15 @@ import React from 'react'
 import CompraProduto from './CompraProduto'
 
 export default React.createClass({
+    propTypes: {
+        produtos: React.PropTypes.array.isRequired,
+        onChange: React.PropTypes.func
+    },
+    getDefaultProps: function() {
+        return {
+            onChange: function() {}
+        }
+    },
     getInitialState: function() {
         return {
             selected: {},

@@ -1,6 +1,9 @@
 import React from 'react'
 
 export default React.createClass({
+    propTypes: {
+        produto: React.PropTypes.object.isRequired
+    },
     render: function() {
         return (
             <tr>

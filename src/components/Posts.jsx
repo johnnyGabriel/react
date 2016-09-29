@@ -4,6 +4,9 @@ import PostsHeader from './PostsHeader'
 import PostsList from './PostsList'
 
 export default React.createClass({
+    propTypes: {
+        endpoint: React.PropTypes.string.isRequired
+    },
     getInitialState: function() {
         return {
             posts: [],

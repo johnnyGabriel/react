@@ -1,6 +1,14 @@
 import React from 'react'
 
 export default React.createClass({
+    propTypes: {
+        onChange: React.PropTypes.func
+    },
+    getDefaultProps: function() {
+        return {
+            onChange: function() {}
+        }
+    },
     handleKeyUp: function(ev) {
 
         var value = ev.target.value;

@@ -3,6 +3,11 @@ import CompraForm from './CompraForm'
 import CompraLista from './CompraLista'
 
 export default React.createClass({
+    propTypes: {
+        titulo: React.PropTypes.string,
+        subtitulo: React.PropTypes.string,
+        produtos: React.PropTypes.array.isRequired
+    },
     getInitialState: function() {
         return {
             carrinho: []
