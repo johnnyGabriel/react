@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const clean = require('gulp-clean');
 const livereload = require('gulp-server-livereload');
 const watchify = require('watchify');
+const errorify = require('errorify');
 const gutil = require('gulp-util');
 const source = require('vinyl-source-stream');
 const browserify = require('browserify');
@@ -10,7 +11,8 @@ var b = browserify({
     entries: ['./src/App.jsx'],
     extensions: ['.js', '.jsx', '.json'],
     cache: {},
-    packageCache: {}
+    packageCache: {},
+    plugin: 'errorify'
 });
 
 var filesWatch = ['src/*.*', '!src/*.jsx', 'src/css/*', 'src/libs/**/*'];
