@@ -2,41 +2,61 @@ const gulp = require('gulp');
 const babel = require('gulp-babel');
 const clean = require('gulp-clean');
 const livereload = require('gulp-server-livereload');
+const watchify = require('watchify');
+const gutil = require('gulp-util');
+const source = require('vinyl-source-stream');
+const browserify = require('browserify');
+
+var b = browserify({
+    entries: ['./src/App.jsx'],
+    extensions: ['.js', '.jsx', '.json'],
+    cache: {},
+    packageCache: {}
+});
+
+var filesWatch = ['src/*.*', '!src/*.jsx', 'src/css/*', 'src/libs/**/*'];
+
+bundler = () =>
+    b
+    .transform( "babelify", { presets: ['react', 'es2015']} )
+    .transform( { global: true }, "uglifyify" )
+    .bundle()
+    .pipe(source('App.js'))
+    .pipe(gulp.dest('dist'))
+
+watcher = () => {
+    b.plugin('watchify')
+        .on('update', bundler)
+        .on('log', gutil.log.bind(this, 'Watchify update...'))
+    bundler()
+    gulp.watch(filesWatch, move)
+}
+
+move = (event) =>
+    gulp.src(event.path, { base: 'src' })
+        .pipe(gulp.dest('dist'))
+
+cleaner = () =>
+    gulp.src('dist', { read: false })
+        .pipe(clean())
+
+server = () =>
+    gulp.src(['dist'])
+        .pipe(livereload({
+            livereload: true,
+            defaultFile: 'index.html',
+            log: 'debug'
+        }))
+
+moveAll = () =>
+    gulp.src(filesWatch, { base: 'src'} )
+        .pipe(gulp.dest('dist'))
 
 gulp
-    .task('jsx', () =>
-        gulp.src('src/jsx/**/*')
-            .pipe(babel({
-                presets: ['react']
-            }))
-            .pipe(gulp.dest('dist/js'))
-    )
-    .task('moveSrc', () =>
-        gulp.src(['src/*.*', 'src/css/*'], { base: 'src' })
-            .pipe(gulp.dest('dist'))
-    )
-    .task('moveBower', () =>
-        gulp.src('src/libs/**/*', { base: 'src' })
-            .pipe(gulp.dest('dist'))
-    )
-    .task('clean', () => 
-        gulp.src('dist', { read: false})
-            .pipe(clean())
-    )
-    .task('watchSrc', () => 
-        gulp.watch(['src/**/*', '!src/libs/**/*'], ['jsx', 'moveSrc'])
-    )
-    .task('watchBower', () => 
-        gulp.watch('src/libs/**/*', ['moveBower'])
-    )
-    .task('watch', ['watchSrc', 'watchBower'])
-    .task('server', () =>
-        gulp.src(['dist'])
-            .pipe(livereload({
-                livereload: true,
-                defaultFile: 'index.html',
-                log: 'debug'
-            }))
-    )
-    .task('build', ['jsx', 'moveSrc', 'moveBower'])
-    .task('default', ['build', 'watch', 'server']);
+    .task('watchify', watcher)
+    .task('browserify', bundler)
+    .task('moveFiles', moveAll)
+    .task('server', server)
+    .task('clean', cleaner)
+    .task('build', ['browserify', 'moveFiles'])
+    .task('default', ['watchify', 'server']);

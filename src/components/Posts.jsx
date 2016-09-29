@@ -1,40 +1,9 @@
-var PostItem = React.createClass({
-    render: function() {
-        return (
-            <a href="#" className="list-group-item">
-                <h4 className="list-group-item-heading">{ this.props.post.title }</h4>
-                <p className="list-group-item-text">{ this.props.post.body }</p>
-            </a>
-        );
-    }
-});
+import {get} from 'jquery'
+import React from 'react'
+import PostsHeader from './PostsHeader'
+import PostsList from './PostsList'
 
-var PostList = React.createClass({
-    postItem: function(post) {
-        return <PostItem post={post} key={post.id}/>;
-    },
-    render: function() {
-        return (
-            <div className="list-group">
-                { this.props.posts.map(this.postItem) }
-            </div>
-        );
-    }
-});
-
-var PostHeader = React.createClass({
-    render: function() {
-        return (
-            <div className="page-header">
-                <h1> { this.props.title }
-                <small> { this.props.subtitle }</small>
-                </h1>  
-            </div>
-        );
-    }
-});
-
-var PostApp = React.createClass({
+export default React.createClass({
     getInitialState: function() {
         return {
             posts: [],
@@ -53,10 +22,10 @@ var PostApp = React.createClass({
     render: function() {
         return (
             <div>
-                <PostHeader title="Postagens" subtitle="mais recentes" />
+                <PostsHeader title="Postagens" subtitle="mais recentes" />
                 { this.state.isLoading ? <h4>Carregando...</h4> : null }
                 { this.state.isFail ? <h4>Não foi possível buscar as postagens</h4> : null }
-                <PostList posts={this.state.posts} />
+                <PostsList posts={this.state.posts} />
             </div>
         );
     },
@@ -82,7 +51,7 @@ var PostApp = React.createClass({
             isLoading: true
         });
 
-        this.request = $.get(this.props.endpoint)
+        this.request = get(this.props.endpoint)
             .done(success.bind(this))
             .fail(fail.bind(this));
     }

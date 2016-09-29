@@ -1,4 +1,4 @@
-var json = [
+[
     { id: 1, nome: "Refrigerante", qEstoque: 5 , valor: 5.50 },
     { id: 2, nome: "Arroz", qEstoque: 3 , valor: 10 },
     { id: 3, nome: "Feijão", qEstoque: 1, valor: 25.90 },
@@ -10,15 +10,3 @@ var json = [
     { id: 9, nome: "Laranja", qEstoque: 51 , valor: 1.99 },
     { id: 10, nome: "Banana", qEstoque: 7 , valor: 6.99 },
 ];
-
-ReactDOM.render(
-    // <CompraApp 
-    //     titulo="Compras"
-    //     subtitulo="Selecione os produtos que deseja levar"
-    //     produtos={json} />,
-    <LiveSearch 
-        searchKey="nome"
-        viewKey="nome"
-        data={json} />,
-    document.getElementById('content')
-);
