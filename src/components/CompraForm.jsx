@@ -40,6 +40,7 @@ export default React.createClass({
                                 className="form-control"
                                 min={1}
                                 max={ this.state.selected.qEstoque || 1 }
+                                step={1}
                                 placeholder="quantidade"
                                 value={ this.state.qtt }
                                 onChange={ this.handleQttChange } />
@@ -71,10 +72,14 @@ export default React.createClass({
     },
     handleQttChange: function(ev) {
 
-        var el = ev.target;
+        var input = function(prop) {
+            return parseInt(ev.target[prop]);
+        }
 
         this.setState({
-            qtt: (el.value > el.max ? el.max : (el.value < 1 ? 1 : el.value))
+            qtt: (input('value') > input('max') ? input('max')
+                : input('value') < 1 ? 1
+                : input('value'))
         });
 
     },
