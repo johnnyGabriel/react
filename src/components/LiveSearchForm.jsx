@@ -2,25 +2,32 @@ import React from 'react'
 
 export default React.createClass({
     propTypes: {
-        onChange: React.PropTypes.func
+        onKeyUp: React.PropTypes.func
     },
     getDefaultProps() {
-        return {
-            onChange: (0)
-        }
+        return { onKeyUp: (0) }
     },
-    handleKeyUp(ev) {
-
-        var value = ev.target.value;
-        this.props.onChange(value);
-
+    getInitialState() {
+        return { value: '' };
+    },
+    handleChange(event) {
+        this.setState( { value: event.target.value } );
+    },
+    handleKeyUp(event) {
+        this.props.onKeyUp( event.target.value );
     },
     render() {
         return (
             <input
                 className="form-control borderless"
                 placeholder="Pesquise pelo nome"
+                value={ this.state.value }
+                onChange={ this.handleChange }
                 onKeyUp={ this.handleKeyUp } />
         );
+    },
+    override(newValue) {
+        this.setState( { value: newValue } );
+        this.props.onKeyUp( newValue );
     }
 });
