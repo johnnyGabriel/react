@@ -4,18 +4,18 @@ export default React.createClass({
     propTypes: {
         onChange: React.PropTypes.func
     },
-    getDefaultProps: function() {
+    getDefaultProps() {
         return {
-            onChange: function() {}
+            onChange: (0)
         }
     },
-    handleKeyUp: function(ev) {
+    handleKeyUp(ev) {
 
         var value = ev.target.value;
         this.props.onChange(value);
 
     },
-    render: function() {
+    render() {
         return (
             <input
                 className="form-control borderless"

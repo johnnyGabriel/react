@@ -7,22 +7,22 @@ export default React.createClass({
     propTypes: {
         endpoint: React.PropTypes.string.isRequired
     },
-    getInitialState: function() {
+    getInitialState() {
         return {
             posts: [],
             isLoading: true,
             isFail: false
         };
     },
-    componentDidMount: function() {
+    componentDidMount() {
         this.requestPosts();
         this.interval = setInterval(this.requestPosts, 5000);
     },
-    componentWillUnmount: function() {
+    componentWillUnmount() {
         this.request.abort();
         clearInterval(this.interval);
     },
-    render: function() {
+    render() {
         return (
             <div>
                 <PostsHeader title="Postagens" subtitle="mais recentes" />
@@ -32,23 +32,21 @@ export default React.createClass({
             </div>
         );
     },
-    requestPosts: function() {
+    requestPosts() {
 
-        function success(posts) {
+        const success = (posts) => 
             this.setState({
                 posts: posts,
                 isLoading: false,
                 isFail: false
-            });
-        }
+            })
 
-        function fail() {
+        const fail = () =>
             this.setState({
                 posts: [],
                 isLoading: false,
                 isFail: true
-            });
-        }
+            })
 
         this.setState({
             isLoading: true

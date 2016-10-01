@@ -6,22 +6,22 @@ export default React.createClass({
         produtos: React.PropTypes.array.isRequired,
         onChange: React.PropTypes.func
     },
-    getDefaultProps: function() {
+    getDefaultProps() {
         return {
-            onChange: function() {}
+            onChange: (0)
         }
     },
-    getInitialState: function() {
+    getInitialState() {
         return {
             selected: {},
-            produto: 0,            
+            produto: 0,        
             qtt: 1
         };
     },
-    componentDidMount: function() {
+    componentDidMount() {
         this.carrinho = [];
     },
-    render: function() {
+    render() {
         return (
             <form onSubmit={ this.handleSubmit }>
                 <div className="row">
@@ -33,12 +33,7 @@ export default React.createClass({
                                 value={ this.state.produto }
                                 onChange={ this.handleProdChange }>
                                 <option value="0" disabled> Selecione o produto </option>
-                                { this.props.produtos.map(function(produto) {
-                                    return <CompraProduto
-                                        key={ produto.id }
-                                        id={ produto.id }
-                                        nome={ produto.nome } />;
-                                }) }        
+                                { this.mapProdutos(this.props.produtos) }        
                             </select>
                         </div>
                     </div>
@@ -68,22 +63,25 @@ export default React.createClass({
             </form>
         );
     },
-    handleProdChange: function(ev) {
+    handleProdChange(ev) {
 
         var selectedVal = ev.target.options[ ev.target.selectedIndex ].value;
 
         this.setState(
             Object.assign( this.getInitialState(), {
-                selected: this.getProdutoById( selectedVal ),
+                selected: this.getProdutoById( this.props.produtos, selectedVal ),
                 produto: selectedVal
             })
         );
     },
-    handleQttChange: function(ev) {
+    handleQttChange(ev) {
 
-        var input = function(prop) {
-            return parseInt(ev.target[prop]);
+        var EventProps = (event) => {
+            var el = event.target;
+            return ( prop => parseInt(el[prop]) );
         }
+
+        var input = EventProps(ev);
 
         this.setState({
             qtt: (input('value') > input('max') ? input('max')
@@ -92,7 +90,7 @@ export default React.createClass({
         });
 
     },
-    handleSubmit: function(ev) {
+    handleSubmit(ev) {
 
         ev.preventDefault();
 
@@ -102,16 +100,18 @@ export default React.createClass({
 
         this.props.onChange(this.carrinho);
 
-        this.setState(
-            this.getInitialState()
-        );
+        this.setState( this.getInitialState() );
 
     },
-    getProdutoById: function(id) {
-
-        return this.props.produtos.find(function(produto) {
-            return produto.id == id;
-        });
-
+    mapProdutos(produtos) {
+        return produtos.map( produto =>
+            <CompraProduto
+                key={ produto.id }
+                id={ produto.id }
+                nome={ produto.nome } />
+        )
+    },
+    getProdutoById(produtos, id) {
+        return produtos.find(produto => produto.id == id);
     }
 })

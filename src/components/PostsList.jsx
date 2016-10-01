@@ -5,10 +5,10 @@ export default React.createClass({
     propTypes: {
         posts: React.PropTypes.array.isRequired
     },
-    postItem: function(post) {
+    postItem(post) {
         return <Post post={post} key={post.id}/>;
     },
-    render: function() {
+    render() {
         return (
             <div className="list-group">
                 { this.props.posts.map(this.postItem) }

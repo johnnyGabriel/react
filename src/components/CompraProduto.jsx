@@ -5,7 +5,7 @@ export default React.createClass({
         id: React.PropTypes.number.isRequired,
         nome: React.PropTypes.string.isRequired
     },
-    render: function() {
+    render() {
         return (
             <option value={ this.props.id }>
                 { this.props.nome }

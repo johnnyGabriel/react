@@ -5,7 +5,7 @@ export default React.createClass({
     propTypes: {
         carrinho: React.PropTypes.array.isRequired
     },
-    render: function() {
+    render() {
         return (
             <div className="table-responsive">
                 <table className="table table-hover">
@@ -19,27 +19,36 @@ export default React.createClass({
                     </tr>
                 </thead>
                 <tbody>
-                    { !this.props.carrinho.length ? (
-                        <tr>
-                            <td colSpan="5" className="text-center">
-                                Carrinho vazio   
-                            </td>
-                        </tr>) : null }
-                    { this.props.carrinho.map(function(produto, index) {
-                        return <CompraListaItem key={ index } produto={ produto } />;
-                    }) }
+                    { !this.props.carrinho.length ? this.renderEmpty() : null }
+                    { this.mapCarrinho(this.props.carrinho) }
                     <tr>
                         <td colSpan="4" className="text-right">Total</td>
-                        <td> R$ { this.calcTotal().toFixed(2) } </td>
+                        <td>
+                            R$ { this.calcTotal(this.props.carrinho) }
+                        </td>
                     </tr>
                 </tbody>
                 </table>
             </div>
         );
     },
-    calcTotal: function() {
-        return this.props.carrinho.reduce(function(total, produto) {
-            return total + (produto.valor * produto.qtt)
-        }, 0);
+    renderEmpty() {
+        return (
+            <tr>
+                <td colSpan="5" className="text-center">
+                    Carrinho vazio   
+                </td>
+            </tr>
+        )
+    },
+    mapCarrinho(carrinho) {
+        return carrinho.map((produto, index) =>
+            <CompraListaItem key={ index } produto={ produto } />
+        )
+    },
+    calcTotal(carrinho) {
+        return carrinho.reduce((total, produto) =>
+            total + (produto.valor * produto.qtt)
+        , 0).toFixed(2);
     }
 });

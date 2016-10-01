@@ -8,24 +8,26 @@ export default React.createClass({
         subtitulo: React.PropTypes.string,
         produtos: React.PropTypes.array.isRequired
     },
-    getInitialState: function() {
+    getInitialState() {
         return {
             carrinho: []
         }
     },
-    render: function() {
+    render() {
         return (
             <div>
                 <h1>{ this.props.titulo }</h1>
                 <p>{ this.props.subtitulo }</p>
                 <div>
-                    <CompraForm produtos={ this.props.produtos } onChange={ this.handleFormChange } />
+                    <CompraForm
+                        produtos={ this.props.produtos }
+                        onChange={ this.handleFormChange } />
                     <CompraLista carrinho={ this.state.carrinho } />
                 </div>
             </div>
         );
     },
-    handleFormChange: function(carrinho) {
+    handleFormChange(carrinho) {
         this.setState({ carrinho: carrinho });
     }
 });

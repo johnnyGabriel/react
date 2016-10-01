@@ -5,11 +5,11 @@ export default React.createClass({
         title: React.PropTypes.string,
         subtitle: React.PropTypes.string
     },
-    render: function() {
+    render() {
         return (
             <div className="page-header">
                 <h1> { this.props.title }
-                <small> { this.props.subtitle }</small>
+                    <small> { this.props.subtitle }</small>
                 </h1>  
             </div>
         );

@@ -6,12 +6,12 @@ export default React.createClass({
         showKey: React.PropTypes.string.isRequired,
         results: React.PropTypes.array.isRequired
     },
-    mapResults: function() {
-        return this.props.results.map(function(result) {
-            return <LiveSearchResult key={ result.id } title={ result[this.props.showKey] } />;
-        }.bind(this));
+    mapResults() {
+        return this.props.results.map(result =>
+            <LiveSearchResult key={ result.id } title={ result[this.props.showKey] } />
+        )
     },
-    render: function() {
+    render() {
         return (
             <div className="search-results-container">
                 <div className="list-group search-results">

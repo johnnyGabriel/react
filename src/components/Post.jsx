@@ -4,7 +4,7 @@ export default React.createClass({
     propTypes: {
         post: React.PropTypes.object.isRequired
     },
-    render: function() {
+    render() {
         return (
             <a href="#" className="list-group-item">
                 <h4 className="list-group-item-heading">{ this.props.post.title }</h4>

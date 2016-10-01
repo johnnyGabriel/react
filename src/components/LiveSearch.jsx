@@ -8,22 +8,20 @@ export default React.createClass({
         viewKey: React.PropTypes.string.isRequired,
         data: React.PropTypes.array.isRequired
     },
-    getInitialState: function() {
-        return {
-            searchResults: []
-        };
+    getInitialState() {
+        return { searchResults: [] }
     },
-    handleFormChange: function(strSearch) {
+    handleFormChange(strSearch) {
 
-        var equalNome = function(item) {
-            return item[this.props.searchKey].toLowerCase().search( strSearch.toLowerCase() ) != -1;
-        }.bind(this);
+        var equalNome = ((item) =>
+            item[this.props.searchKey].toLowerCase().search( strSearch.toLowerCase() ) != -1
+        )
 
         this.setState({
             searchResults: strSearch ? this.props.data.filter(equalNome).slice(0, 5) : []
         });
     },
-    render: function() {
+    render() {
         return (
             <div className="form-group">
                 <LiveSearchForm onChange={ this.handleFormChange } />
