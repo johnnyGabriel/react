@@ -8,19 +8,19 @@ const source = require('vinyl-source-stream');
 const browserify = require('browserify');
 
 var b = browserify({
-    entries: ['./src/App.jsx'],
-    extensions: ['.js', '.jsx', '.json'],
-    cache: {},
-    packageCache: {},
-    plugin: 'errorify'
-});
+            entries: ['./src/App.jsx'],
+            extensions: ['.js', '.jsx', '.json'],
+            cache: {},
+            packageCache: {},
+            plugin: 'errorify'
+        })
+        .transform( "babelify", { presets: ['react', 'es2015']} )
+        .transform( { global: true }, "uglifyify" );
 
 var filesWatch = ['src/*.*', '!src/*.jsx', 'src/css/*', 'src/libs/**/*'];
 
 bundler = () =>
     b
-    .transform( "babelify", { presets: ['react', 'es2015']} )
-    .transform( { global: true }, "uglifyify" )
     .bundle()
     .pipe(source('App.js'))
     .pipe(gulp.dest('dist'))
