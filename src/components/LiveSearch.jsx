@@ -11,18 +11,32 @@ export default React.createClass({
         onSelect: React.PropTypes.func
     },
     getDefaultProps() {
-        return { onSelect: (0) }
+        return { onSelect: () => 0 }
     },
     getInitialState() {
-        return { searchResults: [] }
+        return {
+            searchResults: [],
+            listSelected: 0
+        }
     },
-    componentDidMount() {
-
-        if (this.props.initialValue)
-            this.refs.input.override( this.props.initialValue );
-
+    render() {
+        return (
+            <div className="form-group">
+                <LiveSearchForm
+                    ref={ 'input' }
+                    value={ this.props.initialValue }
+                    onType={ this.handleType }
+                    onArrowKey={ this.handleArrowKey }
+                    onEnter={ this.handleEnter } />
+                <LiveSearchResults
+                    showKey={ this.props.viewKey }
+                    results={ this.state.searchResults }
+                    selected={ this.state.listSelected }
+                    onSelect={ this.handleListSelection } />
+            </div>
+        );
     },
-    handleFormChange(strSearch) {
+    handleType(strSearch) {
 
         const searchIn = (str1, str2) => {
             var str1 = str1.toLowerCase(),
@@ -30,38 +44,60 @@ export default React.createClass({
             return str1.search(str2) != -1;
         }
 
-        const filterByPropSearch = (
-            array =>
-                prop =>
-                    string =>
-                        array.filter( el => searchIn( el[prop], string ) )
-        );
+        const filterByPropSearch = ( array, prop, searchArg ) =>
+            array.filter( el => searchIn( el[prop], searchArg ) )
 
-        var results = [];
+        var results = []
 
         if (strSearch)
-            results = filterByPropSearch(this.props.data)(this.props.searchKey)(strSearch);
+            results = filterByPropSearch( this.props.data, this.props.searchKey, strSearch )
 
-        this.setState( { searchResults: results.slice(0, 5) } );
-
-    },
-    handleListSelection(resultId) {
-
-        var findById = id => array => array.find( el => el.id == id )
-        this.props.onSelect( findById( resultId )( this.state.searchResults ) );
-        this.setState( this.getInitialState );
-        this.refs.input.override('');
+        this.setState({
+            searchResults: results.slice(0, 5),
+            listSelected: 0
+        })
 
     },
-    render() {
-        return (
-            <div className="form-group">
-                <LiveSearchForm onKeyUp={ this.handleFormChange } ref={ 'input' } />
-                <LiveSearchResults
-                    showKey={ this.props.viewKey }
-                    results={ this.state.searchResults }
-                    onSelect={ this.handleListSelection } />
-            </div>
-        );
+    handleArrowKey(direction) {
+
+        var selected = this.state.listSelected,
+            length = this.state.searchResults.length -1
+
+        if (length < 0)
+            return false
+
+        switch (direction) {
+            case 'up':
+                selected = ( selected <= 0 ? 0 : --selected )
+                break
+            case 'down':
+                selected = ( selected >= length ? length : ++selected )
+                break
+        }
+
+        this.setState( { listSelected: selected } );
+
+    },
+    handleEnter() {
+
+        var item = this.state.searchResults[ this.state.listSelected ]
+        if (!item) return false
+        this.triggerSelect( item )
+
+    },
+    handleListSelection(index) {
+
+        var item = this.state.searchResults[ index ]
+        if (!item) return false
+        this.triggerSelect( item )
+
+    },
+    triggerSelect(selected) {
+
+        this.props.onSelect( selected )
+        this.setState( this.getInitialState )
+        this.refs.input.override('')
+
     }
+
 });

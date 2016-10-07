@@ -5,17 +5,19 @@ export default React.createClass({
     propTypes: {
         showKey: React.PropTypes.string.isRequired,
         results: React.PropTypes.array.isRequired,
+        selected: React.PropTypes.number,
         onSelect: React.PropTypes.func
     },
     getDefaultProps() {
-        return { onSelect: (0) }
+        return { onSelect: () => 0 }
     },
     mapResults() {
-        return this.props.results.map(result =>
+        return this.props.results.map( (result, index) =>
             <LiveSearchResult
                 key={ result.id }
-                id={ result.id }
+                index={ index }
                 title={ result[this.props.showKey] }
+                selected={ index == this.props.selected }
                 onSelect={ this.handleSelect } />
         )
     },
@@ -29,6 +31,6 @@ export default React.createClass({
         );
     },
     handleSelect(event) {
-        this.props.onSelect( event.target.dataset.id );
+        this.props.onSelect( event.target.dataset.index );
     }
 });

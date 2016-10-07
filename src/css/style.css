@@ -1,3 +1,8 @@
+.search-item-selected {
+    color: #555 !important;
+    text-decoration: none !important;
+    background-color: #f5f5f5 !important;
+}
 .borderless {
     border-radius: 0 !important;
 }

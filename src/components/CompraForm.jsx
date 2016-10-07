@@ -1,5 +1,6 @@
 import React from 'react'
 import CompraProduto from './CompraProduto'
+import LiveSearch from './LiveSearch'
 
 export default React.createClass({
     propTypes: {
@@ -8,7 +9,7 @@ export default React.createClass({
     },
     getDefaultProps() {
         return {
-            onChange: (0)
+            onChange: () => 0
         }
     },
     getInitialState() {
@@ -25,6 +26,13 @@ export default React.createClass({
         return (
             <form onSubmit={ this.handleSubmit }>
                 <div className="row">
+                    <div className="col-md-12">
+                        <LiveSearch 
+                            searchKey="nome"
+                            viewKey="nome"
+                            data={ this.props.produtos }
+                            onSelect={ this.handleSelectSearch } />
+                    </div>
                     <div className="col-md-6">
                         <div className="form-group">
                             <select
@@ -101,6 +109,14 @@ export default React.createClass({
         this.props.onChange(this.carrinho);
 
         this.setState( this.getInitialState() );
+
+    },
+    handleSelectSearch(selected) {
+        
+        this.setState({
+            selected: selected,
+            produto: selected.id
+        });
 
     },
     mapProdutos(produtos) {

@@ -2,19 +2,24 @@ import React from 'react'
 
 export default React.createClass({
     propTypes: {
-        onKeyUp: React.PropTypes.func
+        value: React.PropTypes.string,
+        onType: React.PropTypes.func,
+        onEnter: React.PropTypes.func,
+        onArrowKey: React.PropTypes.func
     },
     getDefaultProps() {
-        return { onKeyUp: (0) }
+        return {
+            onType: () => 0,
+            onEnter: () => 0,
+            onArrowKey: () => 0
+        }
     },
     getInitialState() {
         return { value: '' };
     },
-    handleChange(event) {
-        this.setState( { value: event.target.value } );
-    },
-    handleKeyUp(event) {
-        this.props.onKeyUp( event.target.value );
+    componentDidMount() {
+        if (this.props.value)
+            this.override(this.props.value)
     },
     render() {
         return (
@@ -23,11 +28,39 @@ export default React.createClass({
                 placeholder="Pesquise pelo nome"
                 value={ this.state.value }
                 onChange={ this.handleChange }
+                onKeyDown={ this.handleKeyDown }
                 onKeyUp={ this.handleKeyUp } />
         );
     },
+    handleChange(event) {
+        this.setState( { value: event.target.value } );
+    },
+    handleKeyUp(event) {
+
+        const pointerPosition = (target, pos) => {
+            target.selectionStart = pos
+        }
+
+        switch (event.keyCode) {
+            case 38:
+                pointerPosition( event.target, event.target.value.length )
+                this.props.onArrowKey('up')
+                break
+            case 40:
+                pointerPosition( event.target, event.target.value.length )
+                this.props.onArrowKey('down')
+                break
+            case 13:
+                this.props.onEnter()
+                break
+            default:
+                this.props.onType( event.target.value )
+                break
+        }
+
+    },
     override(newValue) {
         this.setState( { value: newValue } );
-        this.props.onKeyUp( newValue );
+        this.props.onType( newValue );
     }
 });
