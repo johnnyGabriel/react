@@ -19,7 +19,7 @@ export default React.createClass({
     },
     componentDidMount() {
         if (this.props.value)
-            this.override(this.props.value)
+            this.overwrite( this.props.value )
     },
     render() {
         return (
@@ -59,7 +59,7 @@ export default React.createClass({
         }
 
     },
-    override(newValue) {
+    overwrite(newValue) {
         this.setState( { value: newValue } );
         this.props.onType( newValue );
     }

@@ -96,7 +96,7 @@ export default React.createClass({
 
         this.props.onSelect( selected )
         this.setState( this.getInitialState )
-        this.refs.input.override('')
+        this.refs.input.overwrite('')
 
     }
 
