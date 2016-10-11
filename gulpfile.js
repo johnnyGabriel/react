@@ -46,6 +46,7 @@ server = () =>
         .pipe(livereload({
             livereload: true,
             defaultFile: 'index.html',
+            fallback: 'index.html',
             log: 'debug'
         }))
 
