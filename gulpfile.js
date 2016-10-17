@@ -7,35 +7,43 @@ const gutil = require('gulp-util');
 const source = require('vinyl-source-stream');
 const browserify = require('browserify');
 
-var b = browserify({
-            entries: ['./src/App.jsx'],
-            extensions: ['.js', '.jsx', '.json'],
-            cache: {},
-            packageCache: {},
-            plugin: 'errorify'
-        })
-        .transform( "babelify", { presets: ['react', 'es2015']} )
-        .transform( { global: true }, "uglifyify" );
+const instanceBrowserify = browserify({
+                              entries: ['./src/App.jsx'],
+                              extensions: ['.js', '.jsx', '.json'],
+                              cache: {},
+                              packageCache: {},
+                              plugin: 'errorify'
+                           })
+                           .transform(
+                                "babelify",
+                                { presets: ['react', 'es2015'] }
+                            )
+                           .transform(
+                                { global: true },
+                                "uglifyify"
+                            );
 
-var filesWatch = ['src/*.*', '!src/*.jsx', 'src/css/*', 'src/libs/**/*'];
+const filesWatch = [
+    'src/*.*',
+    '!src/*.jsx',
+    'src/css/*',
+    'src/libs/**/*'
+];
 
 bundler = () =>
-    b
-    .bundle()
-    .pipe(source('App.js'))
-    .pipe(gulp.dest('dist'))
+    instanceBrowserify
+        .bundle()
+        .pipe(source('App.js'))
+        .pipe(gulp.dest('dist'))
 
 watcher = () => {
-    b.plugin('watchify')
+    instanceBrowserify
+        .plugin('watchify')
         .on('update', bundler)
         .on('log', gutil.log.bind(this, 'Watchify update...'))
     bundler()
     gulp.watch(filesWatch, move)
 }
-
-move = (event) =>
-    gulp.src(event.path, { base: 'src' })
-        .pipe(gulp.dest('dist'))
 
 cleaner = () =>
     gulp.src('dist', { read: false })
@@ -50,15 +58,19 @@ server = () =>
             log: 'debug'
         }))
 
+move = (event) =>
+    gulp.src(event.path, { base: 'src' })
+        .pipe(gulp.dest('dist'))
+
 moveAll = () =>
     gulp.src(filesWatch, { base: 'src'} )
         .pipe(gulp.dest('dist'))
 
 gulp
-    .task('watchify', watcher)
-    .task('browserify', bundler)
-    .task('moveFiles', moveAll)
-    .task('server', server)
+    .task('bundle', bundler)
+    .task('move-static', moveAll)
+    .task('watch', watcher)
     .task('clean', cleaner)
-    .task('build', ['browserify', 'moveFiles'])
-    .task('default', ['watchify', 'server']);
+    .task('server', server)
+    .task('build', ['bundle', 'move-static'])
+    .task('default', ['watch', 'server']);
