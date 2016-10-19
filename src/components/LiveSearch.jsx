@@ -2,13 +2,15 @@ import React from 'react'
 import LiveSearchForm from './LiveSearchForm'
 import LiveSearchResults from './LiveSearchResults'
 
+const { string, array, func } = React.PropTypes
+
 export default React.createClass({
     propTypes: {
-        initialValue: React.PropTypes.string,
-        searchKey: React.PropTypes.string.isRequired,
-        viewKey: React.PropTypes.string.isRequired,
-        data: React.PropTypes.array.isRequired,
-        onSelect: React.PropTypes.func
+        initialValue: string,
+        searchKey: string.isRequired,
+        viewKey: string.isRequired,
+        data: array.isRequired,
+        onSelect: func
     },
     getDefaultProps() {
         return { onSelect: () => 0 }

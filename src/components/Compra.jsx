@@ -2,11 +2,13 @@ import React from 'react'
 import CompraForm from './CompraForm'
 import CompraLista from './CompraLista'
 
+const { string, array } = React.PropTypes
+
 export default React.createClass({
     propTypes: {
-        titulo: React.PropTypes.string,
-        subtitulo: React.PropTypes.string,
-        produtos: React.PropTypes.array.isRequired
+        titulo: string,
+        subtitulo: string,
+        produtos: array.isRequired
     },
     getInitialState() {
         return {

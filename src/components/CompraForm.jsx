@@ -2,10 +2,12 @@ import React from 'react'
 import CompraProduto from './CompraProduto'
 import LiveSearch from './LiveSearch'
 
+const { array, func } = React.PropTypes
+
 export default React.createClass({
     propTypes: {
-        produtos: React.PropTypes.array.isRequired,
-        onChange: React.PropTypes.func
+        produtos: array.isRequired,
+        onChange: func
     },
     getDefaultProps() {
         return {

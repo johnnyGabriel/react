@@ -1,9 +1,11 @@
 import React from 'react'
 
+const { string } = React.PropTypes
+
 export default React.createClass({
     propTypes: {
-        title: React.PropTypes.string,
-        subtitle: React.PropTypes.string
+        title: string,
+        subtitle: string
     },
     render() {
         return (

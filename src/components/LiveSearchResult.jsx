@@ -1,11 +1,13 @@
 import React from 'react'
 
+const { number, string, bool, func } = React.PropTypes
+
 export default React.createClass({
     propTypes: {
-        index: React.PropTypes.number,
-        title: React.PropTypes.string.isRequired,
-        selected: React.PropTypes.bool,
-        onSelect: React.PropTypes.func
+        index: number,
+        title: string.isRequired,
+        selected: bool,
+        onSelect: func
     },
     getDefaultProps() {
         return { onClick: () => 0 }

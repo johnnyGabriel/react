@@ -1,8 +1,10 @@
 import React from 'react'
 
+const { object } = React.PropTypes
+
 export default React.createClass({
     propTypes: {
-        post: React.PropTypes.object.isRequired
+        post: object.isRequired
     },
     render() {
         return (

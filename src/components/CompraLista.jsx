@@ -1,9 +1,11 @@
 import React from 'react'
 import CompraListaItem from './CompraListaItem'
 
+const { array } = React.PropTypes
+
 export default React.createClass({
     propTypes: {
-        carrinho: React.PropTypes.array.isRequired
+        carrinho: array.isRequired
     },
     render() {
         return (

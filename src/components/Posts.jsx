@@ -1,11 +1,13 @@
-import {get} from 'jquery'
+import { get } from 'jquery'
 import React from 'react'
 import PostsHeader from './PostsHeader'
 import PostsList from './PostsList'
 
+const { string } = React.PropTypes
+
 export default React.createClass({
     propTypes: {
-        endpoint: React.PropTypes.string.isRequired
+        endpoint: string.isRequired
     },
     getInitialState() {
         return {
@@ -23,14 +25,20 @@ export default React.createClass({
         clearInterval(this.interval);
     },
     render() {
+
+        const stt = this.state
+        const renderLoad = () => <h4>Carregando...</h4>
+        const renderFail = () => <h4>Não foi possível buscar as postagens!</h4>
+
         return (
             <div>
                 <PostsHeader title="Postagens" subtitle="mais recentes" />
-                { this.state.isLoading ? <h4>Carregando...</h4> : null }
-                { this.state.isFail ? <h4>Não foi possível buscar as postagens</h4> : null }
-                <PostsList posts={this.state.posts} />
+                { stt.isLoading ? renderLoad() : null }
+                { stt.isFail ? renderFail() : null }
+                <PostsList posts={stt.posts} />
             </div>
         );
+
     },
     requestPosts() {
 
@@ -48,9 +56,7 @@ export default React.createClass({
                 isFail: true
             })
 
-        this.setState({
-            isLoading: true
-        });
+        this.setState( { isLoading: true } );
 
         this.request = get(this.props.endpoint)
             .done(success.bind(this))

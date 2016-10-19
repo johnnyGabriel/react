@@ -1,9 +1,11 @@
 import React from 'react'
 import Post from './Post'
 
+const { array } = React.PropTypes
+
 export default React.createClass({
     propTypes: {
-        posts: React.PropTypes.array.isRequired
+        posts: array.isRequired
     },
     postItem(post) {
         return <Post post={post} key={post.id}/>;

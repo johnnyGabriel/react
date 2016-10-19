@@ -1,9 +1,11 @@
 import React from 'react'
 
+const { number, string } = React.PropTypes
+
 export default React.createClass({
     propTypes: {
-        id: React.PropTypes.number.isRequired,
-        nome: React.PropTypes.string.isRequired
+        id: number.isRequired,
+        nome: string.isRequired
     },
     render() {
         return (

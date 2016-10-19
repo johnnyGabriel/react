@@ -1,11 +1,13 @@
 import React from 'react'
 
+const { string, func } = React.PropTypes
+
 export default React.createClass({
     propTypes: {
-        value: React.PropTypes.string,
-        onType: React.PropTypes.func,
-        onEnter: React.PropTypes.func,
-        onArrowKey: React.PropTypes.func
+        value: string,
+        onType: func,
+        onEnter: func,
+        onArrowKey: func
     },
     getDefaultProps() {
         return {
