@@ -8,6 +8,13 @@ export default React.createClass({
         carrinho: array.isRequired
     },
     render() {
+
+        const empty = () => (
+            <tr>
+                <td colSpan="5" className="text-center"> Carrinho vazio </td>
+            </tr>
+        ) 
+
         return (
             <div className="table-responsive">
                 <table className="table table-hover">
@@ -21,7 +28,7 @@ export default React.createClass({
                     </tr>
                 </thead>
                 <tbody>
-                    { !this.props.carrinho.length ? this.renderEmpty() : null }
+                    { !this.props.carrinho.length ? empty() : null }
                     { this.mapCarrinho(this.props.carrinho) }
                     <tr>
                         <td colSpan="4" className="text-right">Total</td>
@@ -32,15 +39,6 @@ export default React.createClass({
                 </tbody>
                 </table>
             </div>
-        );
-    },
-    renderEmpty() {
-        return (
-            <tr>
-                <td colSpan="5" className="text-center">
-                    Carrinho vazio   
-                </td>
-            </tr>
         )
     },
     mapCarrinho(carrinho) {
