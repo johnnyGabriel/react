@@ -1,3 +1,6 @@
+body {
+    background-color: #EEE !important;
+}
 .search-item-selected {
     color: #555 !important;
     text-decoration: none !important;

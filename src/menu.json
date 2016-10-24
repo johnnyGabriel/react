@@ -1,0 +1,26 @@
+[
+    {
+        "id": 0,
+        "nome": "Home",
+        "link": "/",
+        "desc": "Página inicial"
+    },
+    {
+        "id": 1,
+        "nome": "Posts",
+        "link": "/posts",
+        "desc": "Componente que renderiza uma lista de postagens obtidas de uma API Rest"
+    },
+    {
+        "id": 2,
+        "nome": "Compras",
+        "link": "/compras",
+        "desc": "Componente com formulário que simula uma compra básica de supermercado"
+    },
+    {
+        "id": 3,
+        "nome": "LiveSearch",
+        "link": "/livesearch",
+        "desc": "Componente de busca em tempo real alimentado por um JSON"
+    }
+]
