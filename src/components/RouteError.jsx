@@ -2,6 +2,6 @@ import React from 'react'
 
 export default React.createClass({
     render() {
-        return <h2> Não encontrado! </h2>
+        return <h2>Essa rota não existe!</h2>
     }
 })

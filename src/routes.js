@@ -13,6 +13,6 @@ export default {
         { path: 'posts', component: Posts },
         { path: 'compras', component: Compras },
         { path: 'livesearch', component: LiveSearch },
-        { path: '*', component: RouteError }
+        { path: '*', onEnter(nextState, replace) { replace('/') }}
     ]
 }
