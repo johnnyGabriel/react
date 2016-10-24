@@ -3,7 +3,7 @@ import React from 'react'
 const Home = () => (
     <div>
         <h1>React Components</h1>
-        <p>Compilado de componentes escritos em React. Selecione um no meu ao lado</p>
+        <p>Compilação de componentes escritos em React. Selecione um no meu ao lado</p>
     </div>
 )
 
